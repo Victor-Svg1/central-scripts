@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compra confirmada — Central de Scripts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0A2E1E;--verde-m:#13472D;--verde-wa:#25D366;--verde-c:#D1FAE5;
+  --ouro:#F59E0B;--ouro-c:#FEF3C7;
+  --cinza:#6B7280;--cinza-c:#F9FAFB;--borda:#E5E7EB;
+  --preto:#0D0D0D;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cinza-c);color:var(--preto);min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3{font-family:'Syne',sans-serif;line-height:1.15}
+
+/* CONFETTI */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden}
+.cp{position:absolute;top:-10px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* TOPBAR */
+.topbar{background:var(--verde);padding:14px 24px;display:flex;align-items:center;justify-content:center;gap:10px}
+.tb-logo{width:28px;height:28px;background:var(--verde-wa);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.tb-logo svg{width:14px;height:14px;fill:#000}
+.tb-name{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#fff}
+
+/* HERO */
+.hero-ok{background:var(--verde);padding:56px 24px 80px;text-align:center;position:relative;overflow:hidden}
+.hero-ok::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(37,211,102,.12),transparent 60%);pointer-events:none}
+.hero-ok::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:60px;background:var(--cinza-c);clip-path:ellipse(55% 100% at 50% 100%);pointer-events:none}
+.hero-inner{position:relative;z-index:1}
+.check-wrap{width:80px;height:80px;border-radius:50%;background:var(--verde-wa);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 0 0 16px rgba(37,211,102,.12)}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.check-wrap svg{width:38px;height:38px;stroke:#000;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.hero-ok h1{font-size:clamp(26px,4vw,40px);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:10px}
+.hero-ok h1 .name-span{color:var(--verde-wa)}
+.hero-ok p{font-size:15px;color:rgba(255,255,255,.65);max-width:460px;margin:0 auto;line-height:1.6}
+
+/* ANCHOR STRIP */
+.anchor-strip{background:rgba(10,46,30,.95);border-bottom:1px solid rgba(37,211,102,.15);padding:0 24px}
+.anchor-inner{max-width:700px;margin:0 auto;display:flex;gap:0}
+.anchor-item{flex:1;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);cursor:pointer;border-bottom:2px solid transparent;transition:.15s;text-align:center}
+.anchor-item:hover{color:rgba(255,255,255,.85);border-color:rgba(37,211,102,.3)}
+.anchor-ico{font-size:14px}
+
+/* MAIN */
+.main{max-width:700px;margin:0 auto;padding:36px 24px 60px;width:100%}
+
+/* SECTION TITLE */
+.sec-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--verde-wa);margin-bottom:8px}
+.sec-title{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.sec-sub{font-size:13px;color:var(--cinza);line-height:1.6;margin-bottom:0}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--borda);border-radius:18px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden}
+.card-top{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+
+/* ACCESS CARD */
+.steps{display:flex;flex-direction:column;gap:12px;margin:20px 0 24px}
+.step{display:flex;align-items:flex-start;gap:12px}
+.step-n{width:26px;height:26px;border-radius:50%;background:var(--verde-c);color:var(--verde-m);font-family:'Syne',sans-serif;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-t{font-size:13px;font-weight:600;margin-bottom:2px}
+.step-d{font-size:12px;color:var(--cinza);line-height:1.5}
+.btn-contact{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;background:var(--cinza-c);color:var(--cinza);font-weight:600;font-size:13px;padding:12px;border-radius:10px;border:1px solid var(--borda);cursor:pointer;transition:.2s;text-decoration:none}
+.btn-contact:hover{border-color:var(--verde-wa);color:var(--verde-wa);background:rgba(37,211,102,.04)}
+.btn-contact svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* ANCHOR PROBLEM */
+.anchor-box{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.15);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px}
+.anchor-box-ico{font-size:22px;flex-shrink:0;margin-top:1px}
+.anchor-box-txt{font-size:13px;line-height:1.65;color:#374151}
+.anchor-box-txt strong{color:#DC2626;font-weight:700}
+
+/* DEPOIMENTOS */
+.depos-grid{display:flex;flex-direction:column;gap:12px;margin:20px 0 0}
+.depo{background:var(--cinza-c);border:1px solid var(--borda);border-radius:12px;padding:16px}
+.depo-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.depo-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#000;flex-shrink:0}
+.depo-name{font-size:13px;font-weight:700;line-height:1.2}
+.depo-role{font-size:11px;color:var(--cinza)}
+.depo-stars{color:var(--ouro);font-size:13px;letter-spacing:1px;margin-bottom:8px}
+.depo-txt{font-size:13px;line-height:1.65;color:#374151;font-style:italic}
+.depo-result{display:inline-block;font-size:10px;font-weight:700;color:var(--verde-m);background:var(--verde-c);padding:2px 8px;border-radius:20px;margin-top:8px}
+
+/* UPSELL CARD */
+.upsell-card{background:var(--verde);border-radius:18px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden}
+.upsell-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--verde-wa),#0F9D4E)}
+.upsell-card::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 80% 0%,rgba(37,211,102,.12),transparent 60%);pointer-events:none}
+.upsell-inner{position:relative;z-index:1}
+.upsell-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;color:var(--ouro);margin-bottom:14px;letter-spacing:.05em;text-transform:uppercase}
+.upsell-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:8px}
+.upsell-sub{font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:18px}
+.upsell-feats{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.upsell-feat{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:rgba(255,255,255,.85)}
+.upsell-feat::before{content:'✓';color:var(--verde-wa);font-weight:700;flex-shrink:0}
+
+/* COMPARISON TABLE */
+.comp-table{width:100%;border-collapse:collapse;margin-bottom:20px;border-radius:10px;overflow:hidden}
+.comp-table th{background:rgba(0,0,0,.25);color:rgba(255,255,255,.7);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:9px 12px;text-align:center}
+.comp-table th:first-child{text-align:left}
+.comp-table td{padding:9px 12px;font-size:12px;border-top:1px solid rgba(255,255,255,.06)}
+.comp-table td:first-child{color:rgba(255,255,255,.7)}
+.comp-table td:not(:first-child){text-align:center;font-weight:700}
+.comp-table tr:nth-child(even) td{background:rgba(0,0,0,.1)}
+.ico-ok{color:var(--verde-wa)}
+.ico-no{color:rgba(255,255,255,.25)}
+.ico-semi{color:var(--ouro)}
+
+/* TIMER */
+.timer-wrap{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.2);border-radius:10px;padding:12px 16px;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.timer-left{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.7);font-weight:500}
+.timer-count{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--ouro);min-width:44px;display:inline-block}
+.timer-tag{font-size:10px;font-weight:700;background:rgba(245,158,11,.2);border:1px solid rgba(245,158,11,.3);color:var(--ouro);padding:3px 9px;border-radius:20px;letter-spacing:.04em}
+
+/* PRICING */
+.pricing-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.price-opt{background:rgba(0,0,0,.2);border-radius:10px;padding:14px;border:1.5px solid transparent;cursor:pointer;transition:.15s}
+.price-opt.featured{border-color:var(--verde-wa);background:rgba(37,211,102,.06)}
+.price-opt-label{font-size:10px;font-weight:700;color:var(--verde-wa);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.price-opt-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:2px}
+.price-opt-sub{font-size:11px;color:rgba(255,255,255,.45)}
+.price-opt-first{font-size:11px;font-weight:700;color:var(--verde-wa);margin-top:6px}
+.btn-upsell{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--verde-wa);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;padding:15px;border-radius:12px;border:none;cursor:pointer;transition:.2s;text-decoration:none;margin-bottom:10px}
+.btn-upsell:hover{background:#2ECC71;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,211,102,.4)}
+.btn-upsell-sec{display:flex;align-items:center;justify-content:center;width:100%;background:transparent;color:rgba(255,255,255,.45);font-size:12px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:.2s;text-decoration:none}
+.btn-upsell-sec:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.7)}
+.garantia-note{text-align:center;font-size:11px;color:rgba(255,255,255,.35);margin-top:8px;display:flex;align-items:center;justify-content:center;gap:5px}
+
+/* DEPO NO UPSELL */
+.upsell-depo{background:rgba(0,0,0,.2);border-radius:10px;padding:14px;margin-bottom:20px;border-left:3px solid var(--verde-wa)}
+.upsell-depo-txt{font-size:13px;color:rgba(255,255,255,.8);line-height:1.65;font-style:italic;margin-bottom:8px}
+.upsell-depo-author{font-size:11px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px}
+.upsell-depo-stars{color:var(--ouro);font-size:11px;letter-spacing:1px}
+
+/* SHARE */
+.share-card{background:#fff;border:1px solid var(--borda);border-radius:18px;padding:24px;margin-bottom:20px;text-align:center}
+.share-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px}
+.share-sub{font-size:13px;color:var(--cinza);margin-bottom:18px;line-height:1.5}
+.btn-copy-link{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 auto;padding:10px 22px;border-radius:10px;border:1px solid var(--borda);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;background:#fff;color:var(--preto)}
+.btn-copy-link:hover{border-color:var(--verde-wa);color:var(--verde-wa);background:rgba(37,211,102,.04)}
+.btn-copy-link svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* FOOTER */
+footer{margin-top:auto;background:var(--verde);padding:24px;text-align:center}
+footer p{font-size:12px;color:rgba(255,255,255,.35)}
+footer a{color:var(--verde-wa);text-decoration:none}
+
+@media(max-width:480px){
+  .pricing-row{grid-template-columns:1fr}
+  .anchor-inner{overflow-x:auto}
+  .anchor-item{font-size:11px;padding:12px 8px;white-space:nowrap}
+}
+</style>
+</head>
+<body>
+
+<div class="confetti-wrap" id="cWrap"></div>
+
+<div class="topbar">
+  <div class="tb-logo"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z"/></svg></div>
+  <span class="tb-name">Central de Scripts</span>
+</div>
+
+<div class="hero-ok">
+  <div class="hero-inner">
+    <div class="check-wrap">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1>Parabéns<span class="name-span" id="heroName"></span>! 🎉</h1>
+    <p>Sua compra foi confirmada. O link de acesso chegará no seu e-mail em alguns minutos.</p>
+  </div>
+</div>
+
+<div class="anchor-strip">
+  <div class="anchor-inner">
+    <div class="anchor-item" onclick="document.getElementById('sec-acesso').scrollIntoView({behavior:'smooth'})">
+      <span class="anchor-ico">📥</span> Acessar PDF
+    </div>
+    <div class="anchor-item" onclick="document.getElementById('sec-pro').scrollIntoView({behavior:'smooth'})">
+      <span class="anchor-ico">⚡</span> Oferta PRO
+    </div>
+    <div class="anchor-item" onclick="document.getElementById('sec-depos').scrollIntoView({behavior:'smooth'})">
+      <span class="anchor-ico">💬</span> Depoimentos
+    </div>
+    <div class="anchor-item" onclick="document.getElementById('sec-share').scrollIntoView({behavior:'smooth'})">
+      <span class="anchor-ico">🔗</span> Compartilhar
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ACESSO -->
+  <div class="card" id="sec-acesso">
+    <div class="card-top" style="background:linear-gradient(90deg,var(--verde-wa),#0F9D4E)"></div>
+    <div class="sec-label">📥 Seu acesso ao PDF</div>
+    <div class="sec-title">Como receber o material</div>
+    <div class="sec-sub">O link de download foi enviado para o e-mail cadastrado na compra.</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <div><div class="step-t">Abra o e-mail de confirmação</div><div class="step-d">Enviado por noreply@centralscripts.com.br — verifique o spam se não aparecer</div></div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div><div class="step-t">Clique no link de acesso</div><div class="step-d">O PDF abrirá no navegador. Salve no celular para consultar offline.</div></div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div><div class="step-t">Use Ctrl+F para buscar qualquer script</div><div class="step-d">Digite "tá caro", "vou pensar" ou a situação — o script aparece na hora. <strong>Comece pelos scripts de Objeção — são os que mais salvam vendas.</strong></div></div>
+      </div>
+    </div>
+    <a href="https://mail.google.com/mail/?view=cm&to=suporte.centraldescripts@gmail.com&su=N%C3%A3o%20recebi%20o%20PDF&body=Ol%C3%A1%2C%20n%C3%A3o%20recebi%20o%20link%20de%20acesso%20ao%20PDF." target="_blank" class="btn-contact">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Não recebi o e-mail — entrar em contato
+    </a>
+  </div>
+
+  <!-- ANCORAGEM DE PROBLEMA -->
+  <div class="anchor-box">
+    <span class="anchor-box-ico">💡</span>
+    <div class="anchor-box-txt">
+      <strong>Dica de quem já usou:</strong> O PDF resolve bem quando você tem tempo pra consultar. Mas quando você está com 10 clientes ao mesmo tempo, no celular, precisando responder rápido — você vai querer a busca em tempo real do site PRO. Muita gente que comprou o PDF migrou pro PRO na primeira semana.
+    </div>
+  </div>
+
+  <!-- UPSELL PRO -->
+  <div class="upsell-card" id="sec-pro">
+    <div class="upsell-inner">
+      <div class="upsell-badge">⚡ Oferta exclusiva — apenas nessa página</div>
+      <div class="upsell-title">Quer ir além do PDF?</div>
+      <div class="upsell-sub">O site PRO tem tudo do PDF e muito mais. Acessa do celular enquanto você atende, sem precisar abrir o PDF.</div>
+
+      <!-- Depo inline no upsell -->
+      <div class="upsell-depo">
+        <div class="upsell-depo-txt">"Comprei o PDF e em 3 dias assine o PRO. Consigo achar o script em 10 segundos enquanto o cliente espera. Antes ficava procurando no PDF e o cliente sumia."</div>
+        <div class="upsell-depo-author">
+          <span class="upsell-depo-stars">★★★★★</span>
+          Rafaela M. — Vendedora de consórcio, GO
+        </div>
+      </div>
+
+      <!-- Comparação PDF vs PRO -->
+      <table class="comp-table">
+        <tr>
+          <th>Recurso</th>
+          <th>PDF</th>
+          <th>PRO</th>
+        </tr>
+        <tr>
+          <td>Scripts prontos</td>
+          <td class="ico-ok">✓</td>
+          <td class="ico-ok">✓ 107+</td>
+        </tr>
+        <tr>
+          <td>Busca em tempo real</td>
+          <td class="ico-semi">Ctrl+F</td>
+          <td class="ico-ok">✓ Inteligente</td>
+        </tr>
+        <tr>
+          <td>Filtro por nicho</td>
+          <td class="ico-no">—</td>
+          <td class="ico-ok">✓ 11 nichos</td>
+        </tr>
+        <tr>
+          <td>Modo Situação Rápida</td>
+          <td class="ico-no">—</td>
+          <td class="ico-ok">✓ Exclusivo</td>
+        </tr>
+        <tr>
+          <td>Histórico de scripts</td>
+          <td class="ico-no">—</td>
+          <td class="ico-ok">✓ Recopiar 1 clique</td>
+        </tr>
+        <tr>
+          <td>Novos scripts mensais</td>
+          <td class="ico-no">—</td>
+          <td class="ico-ok">✓ Todo mês</td>
+        </tr>
+        <tr>
+          <td>Acesso no celular</td>
+          <td class="ico-semi">Salvar PDF</td>
+          <td class="ico-ok">✓ App otimizado</td>
+        </tr>
+      </table>
+
+      <!-- Timer -->
+      <div class="timer-wrap">
+        <div class="timer-left">
+          ⏳ Oferta exclusiva expira em <span class="timer-count" id="timerCount">15:00</span>
+        </div>
+        <div class="timer-tag">Só nessa página</div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="pricing-row">
+        <div class="price-opt" onclick="window.open('https://pay.kiwify.com.br/et0DkZ5','_blank')">
+          <div class="price-opt-label">PRO Mensal</div>
+          <div class="price-opt-val">R$47<small style="font-size:14px">,90</small></div>
+          <div class="price-opt-sub">por mês</div>
+          <div class="price-opt-first">1ª mensalidade: R$27,90</div>
+        </div>
+        <div class="price-opt featured" onclick="window.open('https://pay.kiwify.com.br/i4q5zJK','_blank')">
+          <div class="price-opt-label">⭐ PRO Anual</div>
+          <div class="price-opt-val">R$397<small style="font-size:14px">,90</small></div>
+          <div class="price-opt-sub">R$33,15/mês</div>
+          <div class="price-opt-first">Economia de 30%</div>
+        </div>
+      </div>
+
+      <a href="https://pay.kiwify.com.br/et0DkZ5" target="_blank" class="btn-upsell">
+        Quero o PRO por R$27,90 agora →
+      </a>
+      <a href="https://pay.kiwify.com.br/i4q5zJK" target="_blank" class="btn-upsell-sec">
+        Prefiro o Anual — R$397,90/ano
+      </a>
+      <div class="garantia-note">🛡️ Garantia de 7 dias — não gostou, devolvemos 100% sem perguntas</div>
+    </div>
+  </div>
+
+  <!-- DEPOIMENTOS -->
+  <div class="card" id="sec-depos">
+    <div class="card-top" style="background:linear-gradient(90deg,var(--ouro),#F97316)"></div>
+    <div class="sec-label">💬 Quem já usou</div>
+    <div class="sec-title">O que estão falando</div>
+    <div class="depos-grid">
+
+      <div class="depo">
+        <div class="depo-header">
+          <div class="depo-av" style="background:#D1FAE5;color:#065F46">MR</div>
+          <div>
+            <div class="depo-name">Maria R.</div>
+            <div class="depo-role">Revendedora de cosméticos · SP</div>
+          </div>
+        </div>
+        <div class="depo-stars">★★★★★</div>
+        <div class="depo-txt">"Na primeira semana fechei 3 vendas que antes eu teria perdido só na objeção de preço. O script do 'tá caro' salvou minha vida. Parecia que eu tinha virado outra vendedora."</div>
+        <div class="depo-result">+3 vendas na 1ª semana</div>
+      </div>
+
+      <div class="depo">
+        <div class="depo-header">
+          <div class="depo-av" style="background:#DBEAFE;color:#1E40AF">JF</div>
+          <div>
+            <div class="depo-name">João F.</div>
+            <div class="depo-role">Dono de delivery · MG</div>
+          </div>
+        </div>
+        <div class="depo-stars">★★★★★</div>
+        <div class="depo-txt">"Meu maior problema era cliente que sumia depois do orçamento. Com os scripts de follow-up e reativação reduzi pela metade. Simples de usar, funcionou rápido."</div>
+        <div class="depo-result">50% menos desistências</div>
+      </div>
+
+      <div class="depo">
+        <div class="depo-header">
+          <div class="depo-av" style="background:#FEF3C7;color:#92400E">CS</div>
+          <div>
+            <div class="depo-name">Carolina S.</div>
+            <div class="depo-role">Corretora de consórcio · RJ</div>
+          </div>
+        </div>
+        <div class="depo-stars">★★★★★</div>
+        <div class="depo-txt">"Trabalho com consórcio e as objeções são pesadas. Antes eu travava quando falavam 'prefiro financiamento'. Agora tenho resposta pra tudo e o cliente sai convencido."</div>
+        <div class="depo-result">Resposta para toda objeção</div>
+      </div>
+
+      <div class="depo">
+        <div class="depo-header">
+          <div class="depo-av" style="background:#EDE9FE;color:#5B21B6">PT</div>
+          <div>
+            <div class="depo-name">Pedro T.</div>
+            <div class="depo-role">Corretor de imóveis · SP</div>
+          </div>
+        </div>
+        <div class="depo-stars">★★★★★</div>
+        <div class="depo-txt">"Comprei achando que era mais do mesmo. Me surpreendi com os scripts específicos pra imobiliária — coisa que outros materiais não têm. Uso o de 'vou esperar os preços caírem' toda semana."</div>
+        <div class="depo-result">Scripts específicos por nicho</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SHARE -->
+  <div class="share-card" id="sec-share">
+    <div class="share-title">Conhece alguém que também vende pelo WhatsApp?</div>
+    <div class="share-sub">Compartilhe o link. Se a pessoa comprar, você ajuda alguém a vender mais — e não custa nada.</div>
+    <button class="btn-copy-link" onclick="copyLink(this)">
+      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      <span id="copyTxt">Copiar link da página</span>
+    </button>
+  </div>
+
+</div>
+
+<footer>
+  <p>Dúvidas? <a href="https://mail.google.com/mail/?view=cm&to=suporte.centraldescripts@gmail.com&su=Suporte%20Central%20de%20Scripts" target="_blank">suporte.centraldescripts@gmail.com</a> · centralscripts.com.br</p>
+</footer>
+
+<script>
+// ── CONFETTI ──────────────────────────────────────────────────────
+(function(){
+  var colors=['#25D366','#F59E0B','#fff','#D1FAE5','#0A2E1E','#FEF3C7','#6366F1'];
+  var wrap=document.getElementById('cWrap');
+  for(var i=0;i<90;i++){
+    var p=document.createElement('div');
+    p.className='cp';
+    var size=Math.random()*9+4;
+    var isRect=Math.random()>.5;
+    p.style.cssText=[
+      'left:'+Math.random()*100+'vw',
+      'width:'+size+'px',
+      'height:'+(isRect?size*1.5:size)+'px',
+      'background:'+colors[Math.floor(Math.random()*colors.length)],
+      'border-radius:'+(isRect?'3px':'50%'),
+      'animation-duration:'+(Math.random()*2.5+1.5)+'s',
+      'animation-delay:'+(Math.random()*1.8)+'s',
+      'opacity:'+(Math.random()*.7+.3)
+    ].join(';');
+    wrap.appendChild(p);
+  }
+})();
+
+// ── NOME PERSONALIZADO ────────────────────────────────────────────
+(function(){
+  // Kiwify passa ?customer_name=Victor ou ?name=Victor na URL
+  var params=new URLSearchParams(window.location.search);
+  var name=params.get('customer_name')||params.get('name')||params.get('customer')||'';
+  if(name){
+    // Capitalize first letter, decode URI, limit length
+    try{ name=decodeURIComponent(name); }catch(e){}
+    name=name.split(' ')[0]; // só primeiro nome
+    name=name.charAt(0).toUpperCase()+name.slice(1).toLowerCase();
+    if(name.length>2&&name.length<30){
+      document.getElementById('heroName').textContent=', '+name;
+    }
+  }
+})();
+
+// ── TIMER ─────────────────────────────────────────────────────────
+(function(){
+  var KEY='csp_obrigado_end';
+  var stored=localStorage.getItem(KEY);
+  var endTime;
+  if(stored&&parseInt(stored)>Date.now()){
+    endTime=parseInt(stored);
+  }else{
+    endTime=Date.now()+15*60*1000;
+    localStorage.setItem(KEY,endTime);
+  }
+  function pad(n){return n<10?'0'+n:n;}
+  var el=document.getElementById('timerCount');
+  var wrap=el.parentElement.parentElement;
+  var interval=setInterval(function(){
+    var rem=endTime-Date.now();
+    if(rem<=0){
+      clearInterval(interval);
+      wrap.innerHTML='<span style="font-size:12px;color:#EF4444;font-weight:600">⏰ Oferta expirada — mas ainda é possível assinar em <a href="https://centralscripts.com.br/pro" style="color:#EF4444;text-decoration:underline">centralscripts.com.br/pro</a></span>';
+      return;
+    }
+    var m=Math.floor(rem/60000);
+    var s=Math.floor((rem%60000)/1000);
+    el.textContent=pad(m)+':'+pad(s);
+  },1000);
+})();
+
+// ── COPY LINK ─────────────────────────────────────────────────────
+function copyLink(btn){
+  var url='https://centralscripts.com.br';
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url);
+  }else{
+    var ta=document.createElement('textarea');
+    ta.value=url;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+  }
+  var el=document.getElementById('copyTxt');
+  el.textContent='✅ Link copiado!';
+  setTimeout(function(){el.textContent='Copiar link da página';},2500);
+}
+</script>
+</body>
+</html>
