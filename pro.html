@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Scripts PRO — Nunca mais trave no WhatsApp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#0A2E1E;--verde-m:#13472D;--verde-wa:#25D366;--verde-c:#D1FAE5;
+  --ouro:#F59E0B;--ouro-c:#FEF3C7;
+  --cinza:#6B7280;--cinza-c:#F9FAFB;--borda:#E5E7EB;
+  --preto:#0D0D0D;--branco:#FFFFFF;
+  --azul:#1E40AF;--azul-c:#DBEAFE;
+  --r:12px;--r-lg:20px;
+  --shadow:0 4px 24px rgba(0,0,0,.08);
+  --shadow-lg:0 16px 48px rgba(0,0,0,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--preto);line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;line-height:1.15}
+img{max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* ── TOPBAR ── */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--borda);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.tb-brand{display:flex;align-items:center;gap:10px}
+.tb-logo{width:34px;height:34px;background:var(--verde-wa);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.tb-logo svg{width:18px;height:18px;fill:#000}
+.tb-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px}
+.tb-pro{font-size:9px;font-weight:700;background:var(--ouro);color:#000;padding:2px 6px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase}
+.tb-cta{background:var(--verde-wa);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:9px 20px;border-radius:50px;border:none;cursor:pointer;transition:all .2s}
+.tb-cta:hover{background:#2ECC71;transform:translateY(-1px)}
+
+/* ── HERO ── */
+.hero{background:var(--verde);min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 24px 80px}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 80% 50%,rgba(37,211,102,.12) 0%,transparent 60%)}
+.hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:80px;background:#fff;clip-path:ellipse(55% 100% at 50% 100%)}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.25);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--verde-wa);margin-bottom:24px;letter-spacing:.04em}
+.hero-badge span{width:6px;height:6px;border-radius:50%;background:var(--verde-wa);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
+.hero h1{font-size:clamp(36px,5vw,58px);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:20px}
+.hero h1 em{font-style:normal;color:var(--verde-wa)}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:32px;max-width:460px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-hero-main{background:var(--verde-wa);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;padding:16px 32px;border-radius:50px;border:none;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-hero-main:hover{background:#2ECC71;transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.4)}
+.btn-hero-sec{background:transparent;color:rgba(255,255,255,.7);font-size:14px;padding:16px 24px;border-radius:50px;border:1px solid rgba(255,255,255,.2);cursor:pointer;transition:all .2s}
+.btn-hero-sec:hover{border-color:rgba(255,255,255,.5);color:#fff}
+.hero-stats{display:flex;gap:24px;margin-top:40px;flex-wrap:wrap}
+.hero-stat{text-align:center}
+.hero-stat-n{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--verde-wa)}
+.hero-stat-l{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px}
+
+/* HERO MOCKUP */
+.hero-mockup{position:relative}
+.mockup-card{background:#1A2F22;border:1px solid rgba(37,211,102,.2);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.mockup-bar{background:#0F1F16;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.mockup-dot{width:10px;height:10px;border-radius:50%}
+.mockup-body{padding:16px}
+.mockup-search{background:#0F1F16;border:1px solid rgba(37,211,102,.2);border-radius:8px;padding:10px 14px;font-size:13px;color:rgba(255,255,255,.4);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.script-card-mock{background:#0F1F16;border:1px solid rgba(37,211,102,.15);border-radius:10px;padding:14px;margin-bottom:8px}
+.scm-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;margin-bottom:8px;letter-spacing:.06em}
+.scm-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:8px}
+.scm-msg{background:rgba(37,211,102,.08);border-left:3px solid var(--verde-wa);border-radius:0 6px 6px 0;padding:9px 11px;font-size:11px;color:rgba(255,255,255,.7);line-height:1.6}
+.scm-foot{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+.scm-btn{font-size:10px;font-weight:700;padding:5px 12px;border-radius:20px;border:none;cursor:pointer}
+
+/* ── SOCIAL PROOF BAR ── */
+.proof-bar{background:var(--cinza-c);border-top:1px solid var(--borda);border-bottom:1px solid var(--borda);padding:16px 24px}
+.proof-bar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap}
+.proof-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cinza)}
+.proof-item strong{color:var(--preto)}
+.proof-div{width:1px;height:20px;background:var(--borda)}
+
+/* ── SECTIONS ── */
+.section{padding:80px 24px}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--verde-wa);margin-bottom:12px}
+.section-title{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em;margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--cinza);line-height:1.7;max-width:580px}
+
+/* ── PROBLEM ── */
+.problem{background:var(--cinza-c)}
+.prob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:48px}
+.prob-card{background:#fff;border:1px solid var(--borda);border-radius:var(--r-lg);padding:28px;position:relative;overflow:hidden}
+.prob-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.prob-card.red::before{background:#EF4444}
+.prob-card.amber::before{background:var(--ouro)}
+.prob-card.blue::before{background:var(--azul)}
+.prob-ico{font-size:28px;margin-bottom:14px}
+.prob-t{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px}
+.prob-d{font-size:14px;color:var(--cinza);line-height:1.6}
+
+/* ── FEATURES ── */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.feat-card{border:1px solid var(--borda);border-radius:var(--r-lg);padding:28px;transition:.2s;position:relative;overflow:hidden;background:#fff}
+.feat-card:hover{border-color:rgba(37,211,102,.4);box-shadow:var(--shadow)}
+.feat-ico-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:22px}
+.feat-t{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px}
+.feat-d{font-size:14px;color:var(--cinza);line-height:1.6}
+.feat-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;margin-top:12px;letter-spacing:.04em}
+
+/* ── DEMO SECTION ── */
+.demo-section{background:var(--verde);padding:80px 24px;position:relative;overflow:hidden}
+.demo-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 30% 50%,rgba(37,211,102,.1),transparent 70%)}
+.demo-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.demo-txt .section-title{color:#fff}
+.demo-txt .section-sub{color:rgba(255,255,255,.65)}
+.demo-steps{margin-top:32px;display:flex;flex-direction:column;gap:20px}
+.demo-step{display:flex;gap:16px;align-items:flex-start}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--verde-wa);color:#000;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-t{color:#fff;font-weight:600;font-size:15px;margin-bottom:4px}
+.step-d{color:rgba(255,255,255,.6);font-size:13px;line-height:1.6}
+
+/* SQ Demo */
+.sq-demo{background:#1A2F22;border:1px solid rgba(37,211,102,.2);border-radius:var(--r-lg);padding:24px;position:relative}
+.sq-demo-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--verde-wa);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sq-question{font-size:14px;font-weight:600;color:#fff;margin-bottom:12px}
+.sq-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.sq-opt{padding:9px 12px;border:1px solid rgba(37,211,102,.2);border-radius:8px;font-size:12px;color:rgba(255,255,255,.7);cursor:pointer;transition:.15s}
+.sq-opt:hover,.sq-opt.active{border-color:var(--verde-wa);background:rgba(37,211,102,.1);color:var(--verde-wa)}
+.sq-result{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.2);border-left:3px solid var(--verde-wa);border-radius:0 8px 8px 0;padding:12px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.7}
+.sq-result-title{font-weight:700;color:#fff;margin-bottom:6px;font-size:13px}
+
+/* ── TESTIMONIALS ── */
+.testimonials{background:var(--cinza-c)}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.test-card{background:#fff;border:1px solid var(--borda);border-radius:var(--r-lg);padding:28px}
+.test-stars{color:var(--ouro);font-size:16px;margin-bottom:12px;letter-spacing:2px}
+.test-txt{font-size:15px;line-height:1.7;color:var(--preto);margin-bottom:16px;font-style:italic}
+.test-author{display:flex;align-items:center;gap:10px}
+.test-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#000;flex-shrink:0}
+.test-name{font-size:13px;font-weight:700}
+.test-role{font-size:11px;color:var(--cinza)}
+.test-result{display:inline-block;font-size:11px;font-weight:700;color:var(--verde-m);background:var(--verde-c);padding:3px 9px;border-radius:20px;margin-top:8px}
+
+/* ── PRICING ── */
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:700px;margin:48px auto 0}
+.plan-card{border:1.5px solid var(--borda);border-radius:var(--r-lg);padding:32px;position:relative;background:#fff;text-align:center;transition:.2s}
+.plan-card.featured{border-color:var(--verde-wa);box-shadow:0 8px 32px rgba(37,211,102,.15)}
+.plan-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--verde-wa);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;padding:4px 16px;border-radius:20px;white-space:nowrap;letter-spacing:.04em}
+.plan-name{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--verde);margin-bottom:8px}
+.plan-price{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;letter-spacing:-.03em;color:var(--preto);margin-bottom:4px}
+.plan-price span{font-size:16px;font-weight:500;color:var(--cinza)}
+.plan-period{font-size:13px;color:var(--cinza);margin-bottom:8px}
+.plan-first{font-size:12px;font-weight:600;color:var(--verde-m);background:var(--verde-c);padding:4px 12px;border-radius:20px;display:inline-block;margin-bottom:20px}
+.plan-feats{list-style:none;text-align:left;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
+.plan-feats li{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.5}
+.plan-feats li::before{content:'✓';color:var(--verde-wa);font-weight:700;font-size:14px;flex-shrink:0;margin-top:1px}
+.btn-plan{width:100%;padding:14px;border-radius:50px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:.2s;border:none}
+.btn-plan-main{background:var(--verde-wa);color:#000}
+.btn-plan-main:hover{background:#2ECC71;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,211,102,.35)}
+.btn-plan-sec{background:#fff;color:var(--verde);border:1.5px solid var(--borda)}
+.btn-plan-sec:hover{border-color:var(--verde-wa);background:rgba(37,211,102,.04)}
+.garantia{text-align:center;margin-top:24px;font-size:14px;color:var(--cinza);display:flex;align-items:center;justify-content:center;gap:8px}
+.garantia svg{width:18px;height:18px;color:var(--verde-wa)}
+
+/* ── FAQ ── */
+.faq-list{max-width:700px;margin:48px auto 0}
+.faq-item{border:1px solid var(--borda);border-radius:var(--r);margin-bottom:8px;overflow:hidden}
+.faq-q{padding:18px 20px;font-weight:600;font-size:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:.15s}
+.faq-q:hover{background:var(--cinza-c)}
+.faq-q.open{background:var(--verde-c);color:var(--verde)}
+.faq-icon{font-size:18px;flex-shrink:0;transition:transform .2s;color:var(--cinza)}
+.faq-q.open .faq-icon{transform:rotate(45deg);color:var(--verde)}
+.faq-a{display:none;padding:0 20px 18px;font-size:14px;color:var(--cinza);line-height:1.7}
+.faq-item.open .faq-a{display:block;animation:fadeDown .2s ease}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── BOTTOM CTA ── */
+.bottom-cta{background:var(--verde);padding:80px 24px;text-align:center;position:relative;overflow:hidden}
+.bottom-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(37,211,102,.15),transparent 70%)}
+.bottom-cta-inner{max-width:680px;margin:0 auto;position:relative}
+.bottom-cta h2{font-size:clamp(28px,4vw,46px);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:16px}
+.bottom-cta p{font-size:17px;color:rgba(255,255,255,.65);margin-bottom:36px}
+.bottom-cta .btn-hero-main{font-size:16px;padding:18px 40px}
+
+/* ── FOOTER ── */
+footer{background:var(--preto);padding:32px 24px;text-align:center}
+footer p{font-size:13px;color:#6B7280}
+footer a{color:var(--verde-wa)}
+
+/* ── UTILS ── */
+.text-center{text-align:center}
+.highlight{color:var(--verde-wa)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-inner,.demo-inner{grid-template-columns:1fr;gap:40px}
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .test-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .hero-mockup{display:none}
+}
+@media(max-width:600px){
+  .feat-grid{grid-template-columns:1fr}
+  .hero-btns{flex-direction:column}
+  .proof-bar-inner{gap:16px}
+  .proof-div{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="tb-brand">
+    <div class="tb-logo">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z"/></svg>
+    </div>
+    <span class="tb-name">Central de Scripts</span>
+    <span class="tb-pro">PRO</span>
+  </div>
+  <a href="#planos"><button class="tb-cta">Ver planos →</button></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span></span> Plataforma digital para vendedores</div>
+      <h1>Nunca mais <em>trave</em> no WhatsApp na hora de vender</h1>
+      <p class="hero-sub">107+ scripts prontos por nicho e etapa da conversa. Encontra em 3 segundos, copia e envia. Simples assim.</p>
+      <div class="hero-btns">
+        <a href="#planos"><button class="btn-hero-main">Quero acesso ao PRO →</button></a>
+        <a href="#como-funciona"><button class="btn-hero-sec">Ver como funciona</button></a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-n">107+</div><div class="hero-stat-l">Scripts prontos</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">11</div><div class="hero-stat-l">Nichos de mercado</div></div>
+        <div class="hero-stat"><div class="hero-stat-n">8</div><div class="hero-stat-l">Etapas cobertas</div></div>
+      </div>
+    </div>
+    <div class="hero-mockup">
+      <div class="mockup-card">
+        <div class="mockup-bar">
+          <div class="mockup-dot" style="background:#EF4444"></div>
+          <div class="mockup-dot" style="background:#F59E0B"></div>
+          <div class="mockup-dot" style="background:#25D366"></div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-left:8px">app.centralscripts.com.br</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-search">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            tá caro, não tenho dinheiro...
+          </div>
+          <div class="script-card-mock">
+            <div class="scm-badge" style="background:rgba(239,68,68,.2);color:#F87171">🛡️ OBJEÇÃO</div>
+            <div class="scm-title">"Tá caro" — reposicionar valor sem dar desconto</div>
+            <div class="scm-msg">Entendo! Olha só o que percebi: R$[valor] dividido por [X] de uso = R$[Y] por dia. Menos que um cafezinho. 😊<br><br>E você ainda leva [benefício principal]. Vale muito né?</div>
+            <div class="scm-foot">
+              <div class="scm-btn" style="background:rgba(37,211,102,.15);color:#25D366">💬 WA</div>
+              <div class="scm-btn" style="background:#25D366;color:#000">📋 Copiar</div>
+            </div>
+          </div>
+          <div class="script-card-mock" style="opacity:.6">
+            <div class="scm-badge" style="background:rgba(239,68,68,.2);color:#F87171">🛡️ OBJEÇÃO</div>
+            <div class="scm-title">"Não tenho dinheiro agora" — alternativas de pagamento</div>
+            <div class="scm-msg" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="proof-bar">
+  <div class="proof-bar-inner">
+    <div class="proof-item">⭐⭐⭐⭐⭐ <strong>Avaliação 5/5</strong></div>
+    <div class="proof-div"></div>
+    <div class="proof-item">🔒 <strong>Garantia de 7 dias</strong></div>
+    <div class="proof-div"></div>
+    <div class="proof-item">📱 <strong>Acessa do celular, tablet ou PC</strong></div>
+    <div class="proof-div"></div>
+    <div class="proof-item">🔄 <strong>Novos scripts todo mês</strong></div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section problem">
+  <div class="section-inner">
+    <div class="text-center">
+      <div class="section-label">O problema</div>
+      <h2 class="section-title">Você sabe o que vende.<br>Mas na hora de escrever, trava.</h2>
+      <p class="section-sub" style="margin:0 auto">Isso custa vendas todos os dias. O cliente pergunta, você demora, ele some. Ou você manda uma resposta que empurra em vez de atrair.</p>
+    </div>
+    <div class="prob-grid">
+      <div class="prob-card red">
+        <div class="prob-ico">😰</div>
+        <div class="prob-t">Cliente diz "tá caro" e você não sabe o que responder</div>
+        <div class="prob-d">A objeção de preço é a mais comum — e a maioria dos vendedores perde essa venda sem precisar.</div>
+      </div>
+      <div class="prob-card amber">
+        <div class="prob-ico">⏳</div>
+        <div class="prob-t">Demora pra responder e o cliente compra com o concorrente</div>
+        <div class="prob-d">Os primeiros 5 minutos de resposta definem metade das vendas. Velocidade é estratégia.</div>
+      </div>
+      <div class="prob-card blue">
+        <div class="prob-ico">😶</div>
+        <div class="prob-t">Manda a mesma mensagem pra todo mundo e não funciona</div>
+        <div class="prob-d">Scripts genéricos não convertem. Cada etapa da conversa precisa de uma abordagem diferente.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="como-funciona">
+  <div class="section-inner">
+    <div class="text-center">
+      <div class="section-label">A solução</div>
+      <h2 class="section-title">Tudo que você precisa para<br><em class="highlight">responder com confiança</em></h2>
+      <p class="section-sub" style="margin:0 auto">O PRO vai além dos scripts. É uma plataforma completa pensada para quem vende pelo WhatsApp todos os dias.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-ico-wrap" style="background:#D1FAE5">🔍</div>
+        <div class="feat-t">Busca inteligente por situação</div>
+        <div class="feat-d">Digite "cliente sumiu", "tá caro" ou "vou pensar" — encontra o script certo em menos de 3 segundos, com sinônimos automáticos.</div>
+        <span class="feat-tag" style="background:#D1FAE5;color:#065F46">⚡ Economiza tempo</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico-wrap" style="background:#DBEAFE">🎯</div>
+        <div class="feat-t">Filtros por nicho e etapa</div>
+        <div class="feat-d">Delivery, Salão, Clínica, Academia, Consórcio, Imobiliária e mais. Filtre por Abertura, Objeção, Fechamento, Pós-venda e outras.</div>
+        <span class="feat-tag" style="background:#DBEAFE;color:#1E40AF">🏷️ 11 nichos</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico-wrap" style="background:#FEF3C7">⚡</div>
+        <div class="feat-t">Modo Situação Rápida</div>
+        <div class="feat-d">Botão especial: responde 2 perguntas sobre o momento da conversa e recebe os 3 scripts mais indicados para aquele instante.</div>
+        <span class="feat-tag" style="background:#FEF3C7;color:#92400E">🚀 Exclusivo PRO</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico-wrap" style="background:#FCE7F3">📋</div>
+        <div class="feat-t">Histórico com recopiar em 1 clique</div>
+        <div class="feat-d">Todos os scripts que você copiou ficam salvos com o texto completo. Clicou em Recopiar — pronto. Sem precisar procurar de novo.</div>
+        <span class="feat-tag" style="background:#FCE7F3;color:#9D174D">⏱️ Agilidade máxima</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico-wrap" style="background:#FFFBEB">⭐</div>
+        <div class="feat-t">Favoritos com notas pessoais</div>
+        <div class="feat-d">Salve os scripts que mais funcionam e deixe uma nota para lembrar em que situação usar. Sua biblioteca personalizada de vendas.</div>
+        <span class="feat-tag" style="background:#FFFBEB;color:#92400E">💡 Personalizado</span>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico-wrap" style="background:#EDE9FE">🔄</div>
+        <div class="feat-t">Novos scripts todo mês</div>
+        <div class="feat-d">A plataforma cresce com você. Novos scripts são adicionados regularmente com base nos nichos e situações mais pedidos pelos membros.</div>
+        <span class="feat-tag" style="background:#EDE9FE;color:#5B21B6">🌱 Atualização contínua</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-section">
+  <div class="demo-inner">
+    <div class="demo-txt">
+      <div class="section-label">Modo Situação Rápida</div>
+      <h2 class="section-title">Script certo em menos de 30 segundos</h2>
+      <p class="section-sub">2 perguntas. 3 scripts. Sem precisar filtrar, procurar ou pensar muito. Clica no que precisar e copia direto.</p>
+      <div class="demo-steps">
+        <div class="demo-step">
+          <div class="step-num">1</div>
+          <div><div class="step-t">Em que etapa está a conversa?</div><div class="step-d">Abertura, Objeção, Fechamento, Pós-venda...</div></div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">2</div>
+          <div><div class="step-t">Qual o nicho do seu negócio?</div><div class="step-d">Delivery, Academia, Consórcio, Salão...</div></div>
+        </div>
+        <div class="demo-step">
+          <div class="step-num">3</div>
+          <div><div class="step-t">Scripts prontos para você</div><div class="step-d">Os 3 mais adequados para aquele momento específico.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sq-demo">
+      <div class="sq-demo-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Situação Rápida — 2 perguntas, script na hora
+      </div>
+      <div class="sq-question">Em que etapa está a conversa?</div>
+      <div class="sq-opts">
+        <div class="sq-opt">👋 Abertura</div>
+        <div class="sq-opt active">🛡️ Objeção</div>
+        <div class="sq-opt">🤝 Fechamento</div>
+        <div class="sq-opt">⭐ Pós-venda</div>
+      </div>
+      <div class="sq-question">Qual o seu nicho?</div>
+      <div class="sq-opts">
+        <div class="sq-opt active">🍕 Delivery</div>
+        <div class="sq-opt">💇 Salão</div>
+        <div class="sq-opt">🏠 Imóveis</div>
+        <div class="sq-opt">💪 Academia</div>
+      </div>
+      <div style="height:1px;background:rgba(255,255,255,.1);margin:14px 0"></div>
+      <div class="sq-result-title">✅ Scripts para Objeção · Delivery</div>
+      <div class="sq-result">
+        <strong>#1 — "Tá caro"</strong><br>
+        Entendo! Olha só: R$[valor] dividido por [X] pedidos no mês = R$[Y] por refeição. Menos que cozinhar em casa quando você conta o tempo. Vale muito né? 😊
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section testimonials">
+  <div class="section-inner">
+    <div class="text-center">
+      <div class="section-label">Quem já usa</div>
+      <h2 class="section-title">Resultados de quem parou de improvisar</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-txt">"Na primeira semana de uso fechei 3 vendas que antes eu teria perdido na objeção de preço. O script do 'tá caro' salvou minha vida."</div>
+        <div class="test-author">
+          <div class="test-av" style="background:#D1FAE5;color:#065F46">MR</div>
+          <div><div class="test-name">Maria R.</div><div class="test-role">Revendedora de cosméticos, SP</div></div>
+        </div>
+        <div class="test-result">+3 vendas na 1ª semana</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-txt">"Meu delivery tinha muita desistência no WhatsApp. Com os scripts de fechamento reduzi pela metade. Simples assim."</div>
+        <div class="test-author">
+          <div class="test-av" style="background:#DBEAFE;color:#1E40AF">JF</div>
+          <div><div class="test-name">João F.</div><div class="test-role">Proprietário de delivery, MG</div></div>
+        </div>
+        <div class="test-result">50% menos desistências</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-txt">"Trabalho com consórcio e as objeções são pesadas. Agora tenho resposta pra tudo. O modo Situação Rápida é demais."</div>
+        <div class="test-author">
+          <div class="test-av" style="background:#FEF3C7;color:#92400E">CS</div>
+          <div><div class="test-name">Carolina S.</div><div class="test-role">Corretora de consórcio, RJ</div></div>
+        </div>
+        <div class="test-result">Resposta para toda objeção</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="planos">
+  <div class="section-inner">
+    <div class="text-center">
+      <div class="section-label">Planos</div>
+      <h2 class="section-title">Escolha o que faz sentido pra você</h2>
+      <p class="section-sub" style="margin:0 auto">Ambos incluem acesso completo à plataforma. Sem pegadinha.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="plan-card">
+        <div class="plan-name">PRO Mensal</div>
+        <div class="plan-price">R$47<span>,90</span></div>
+        <div class="plan-period">por mês</div>
+        <div class="plan-first">1ª mensalidade: R$27,90</div>
+        <ul class="plan-feats">
+          <li>107+ scripts prontos</li>
+          <li>Todos os 11 nichos</li>
+          <li>Busca inteligente por situação</li>
+          <li>Histórico + Favoritos</li>
+          <li>Modo Situação Rápida</li>
+          <li>Novos scripts mensais</li>
+          <li>Cancela quando quiser</li>
+        </ul>
+        <a href="https://pay.kiwify.com.br/et0DkZ5"><button class="btn-plan btn-plan-sec">Começar por R$27,90</button></a>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-badge">⭐ Mais popular</div>
+        <div class="plan-name">PRO Anual</div>
+        <div class="plan-price">R$397<span>,90</span></div>
+        <div class="plan-period">por ano — R$33,15/mês</div>
+        <div class="plan-first">Economia de mais de 30%</div>
+        <ul class="plan-feats">
+          <li>Tudo do plano Mensal</li>
+          <li>12 meses pelo preço de 8</li>
+          <li>Prioridade em novos scripts</li>
+          <li>Acesso garantido por 1 ano</li>
+          <li>Sem preocupação de renovar</li>
+          <li>Melhor custo-benefício</li>
+        </ul>
+        <a href="https://pay.kiwify.com.br/i4q5zJK"><button class="btn-plan btn-plan-main">Assinar plano Anual →</button></a>
+      </div>
+    </div>
+    <div class="garantia">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Garantia de 7 dias — não gostou, devolvemos 100% sem perguntas</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:var(--cinza-c)">
+  <div class="section-inner">
+    <div class="text-center">
+      <div class="section-label">Dúvidas frequentes</div>
+      <h2 class="section-title">Perguntas comuns</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Como acesso o PRO depois de assinar?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Assim que o pagamento for confirmado, você recebe um e-mail com login e senha. O acesso é imediato — basta entrar em app.centralscripts.com.br.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Funciona no celular?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Sim, 100%. A plataforma foi desenvolvida pra funcionar bem no celular, tablet e computador. Você pode usar enquanto atende pelo WhatsApp.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Os scripts são genéricos ou específicos por nicho?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Específicos. Temos scripts para Delivery, Salão de Beleza, Clínica, Academia, Consórcio, Imobiliária, Loja de Roupas, Serviços, Vendas Online, Revendedor e também scripts gerais que funcionam em qualquer nicho.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Posso cancelar quando quiser no plano mensal?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Sim. No plano mensal você pode cancelar a qualquer momento pela própria plataforma ou pelo suporte. Sem burocracia.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>Qual a diferença entre o PDF e o PRO?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">O PDF é um material estático com 150+ scripts para consultar quando quiser. O PRO é uma plataforma interativa com busca em tempo real, filtros, histórico, favoritos, modo Situação Rápida e atualizações mensais. São complementares — muita gente usa os dois.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>E se os scripts não funcionarem pra mim?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Você tem 7 dias de garantia total. Se usar a plataforma e sentir que não faz sentido pra você, é só pedir reembolso — devolvemos 100% sem perguntas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta">
+  <div class="bottom-cta-inner">
+    <h2>Pronto para responder com confiança?</h2>
+    <p>Junte-se a quem parou de improvisar e começou a fechar mais vendas no WhatsApp todo dia.</p>
+    <a href="#planos"><button class="btn-hero-main" style="font-size:16px;padding:18px 40px">Ver planos e assinar →</button></a>
+    <div class="garantia" style="margin-top:20px;color:rgba(255,255,255,.5)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--verde-wa)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Garantia de 7 dias</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Central de Scripts PRO · <a href="https://centralscripts.com.br">centralscripts.com.br</a></p>
+</footer>
+
+<script>
+function toggleFaq(el){
+  const item=el.parentElement;
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-q').classList.remove('open')});
+  if(!wasOpen){item.classList.add('open');el.classList.add('open')}
+}
+
+// Animate numbers on scroll
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.feat-card,.test-card,.plan-card,.prob-card').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .4s ease, transform .4s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
